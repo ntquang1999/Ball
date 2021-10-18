@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
-    public float slowdownFactor = 0.05f;
+    //public float slowdownFactor = 0.05f;
     private static float defaultFixedDeltaTime;
 
     private void Awake()
     {
-        defaultFixedDeltaTime = Time.fixedDeltaTime;
+        defaultFixedDeltaTime = 0.02f;
     }
-    public void EnterBulletTime()
+    public void EnterBulletTime(float slowdownFactor)
     {
         Time.timeScale = slowdownFactor;
         Time.fixedDeltaTime = Time.timeScale * defaultFixedDeltaTime;

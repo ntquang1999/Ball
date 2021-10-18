@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class BallController : MonoBehaviour
 {
     [SerializeField] private Vector2 mousePosition2D;
-    [SerializeField] private float force;
+    [SerializeField] private float force = 300f;
+    [SerializeField] private float slowdownFactor = 1f;
 
     public TimeManager timeManager;
     public GameObject directionArrow;
@@ -34,7 +35,7 @@ public class BallController : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.white;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                timeManager.EnterBulletTime();
+                timeManager.EnterBulletTime(slowdownFactor);
                 directionArrow.GetComponent<SpriteRenderer>().enabled = true;
             }
 
@@ -45,8 +46,8 @@ public class BallController : MonoBehaviour
                 mousePosition2D = new Vector2(mousePosition.x, mousePosition.y);
                 Vector2 direction = currentPosition - mousePosition2D;
                 direction.Normalize();
-                force = Vector2.Distance(currentPosition, mousePosition2D) * 200;
-                if (force > 500f) force = 500f;
+                //force = Vector2.Distance(currentPosition, mousePosition2D) * 200;
+                //if (force > 500f) force = 500f;
                 timeManager.ExitBulletTime();
                 directionArrow.GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -68,6 +69,18 @@ public class BallController : MonoBehaviour
         if(collision.CompareTag("Finish"))
         {
             AudioController.PlaySound("win");
+        }
+        else if (collision.CompareTag("power"))
+        {
+            force += 30f;
+            if (force > 700f) force = 700f;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.CompareTag("slowmotion"))
+        {
+            slowdownFactor = slowdownFactor * 0.5f;
+            if (slowdownFactor < 0.05f) slowdownFactor = 0.05f;
+            Destroy(collision.gameObject);
         }
         else if (!Godmode)
         {
