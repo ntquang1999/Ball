@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class BallController : MonoBehaviour
 {
     [SerializeField] private Vector2 mousePosition2D;
-    [SerializeField] private float force = 300f;
-    [SerializeField] private float slowdownFactor = 1f;
+    [SerializeField] private float force = 400f;
+    [SerializeField] private float slowdownFactor = 0.25f;
 
     public TimeManager timeManager;
     public GameObject directionArrow;
